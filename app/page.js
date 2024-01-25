@@ -1,44 +1,39 @@
-import Image from "next/image";
-import Link from "next/link";
-import { PiHouseLight, PiGithubLogoLight } from "react-icons/pi";
+import Homepage from "./HomePage/page";
 
-function page() {
-  return (
-    <div className=" ">
-      <div className="p-5 fixed bottom-28 flex flex-col items-center justify-center mx-auto   w-full ">
-        <div className="bg-neutral-600 rounded-full ">
-          <Image
-            height={1000}
-            width={1000}
-            className="object-cover w-fit"
-            src="/emo.png"
-            alt=""
-          />
-        </div>
-        <h1 className="font-RubikExtraBold text-6xl text-center   my-9 btn-shine">
-          JoScript Portfolio
-        </h1>
-
-        <p className="text-neutral-400 lg:max-w-lg text-center font-RubikRegular ">
-          All features are done and coded by Joscript, please use this template
-          with free mind, remember to subscribe and share our videos
-        </p>
-      </div>
-
-      <div className=" flex justify-center">
-        <div className="fixed bottom-7 flex border border-neutral-600 rounded-lg p-2 gap-x-5 text-neutral-500">
-          <Link href={"/dashboard"}>
-            <span>
-              <PiHouseLight className="text-2xl" />
-            </span>
-          </Link>
-          <span>
-            <PiGithubLogoLight className="text-2xl" />
-          </span>
-        </div>
-      </div>
-    </div>
+async function getData() {
+  const params = new URLSearchParams({
+    q: `("MEME coin" OR "meme coin" OR "meme token")`,
+    sortBy: "publishedAt",
+    apiKey: "769855619d27437f93cd0fda2e5fb9ad",
+    language: "en",
+  });
+  const res = await fetch(
+    `https://newsapi.org/v2/everything?${params.toString()}`,
+    { next: { revalidate: 3600 } }
   );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
 }
 
-export default page;
+export default async function Page() {
+  let data;
+  try {
+    data = await getData();
+  } catch (error) {
+    // Handle the error appropriately, e.g., log it or display an error message
+    console.error("Error fetching data:", error);
+    // Optionally, render an error component or message here
+    return <div>Error loading data</div>;
+  }
+
+  // Render your page with the fetched data
+  return (
+    <main>
+      <Homepage data={data} />
+    </main>
+  );
+}

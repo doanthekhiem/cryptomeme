@@ -1,7 +1,15 @@
 "use client";
 import React from "react";
 import { PiGithubLogoLight } from "react-icons/pi";
-import { SiCss3, SiFramer } from "react-icons/si";
+import {
+  SiCss3,
+  SiFramer,
+  SiTelegram,
+  SiBitcoincash,
+  SiReddit,
+  SiDiscord,
+} from "react-icons/si";
+import { FaTwitter } from "react-icons/fa";
 
 import TestimonialTooltip from "@/app/TestimonialTooltip/page";
 import { motion, useAnimation } from "framer-motion";
@@ -27,42 +35,44 @@ function page() {
         <div>
           <div className="bg-[#1C1C1C] min-w-min rounded-2xl p-4 border border-neutral-800 h-fit">
             <h2 className="font-RubikBold text-neutral-200">
-              90+ Framer Shadows
+              340+ Meme tokens
             </h2>
             <p className="text-xs my-3 text-neutral-400 font-RubikRegular">
-              Stop worrying about perfecting <br /> the shadows, just Copy &
-              Paste <br />
-              from the 80+ Shadows collection
+              Explore over 340 meme tokens, the playful pulse of crypto culture.
             </p>
             <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium text-neutral-50 ">
-              Download
+              Show more
             </button>
 
             <div className="border border-neutral-700 my-5" />
 
             <div className="text-neutral-400">
-              <h1 className="font-RubikMedium text-neutral-200">Featured in</h1>
-              <div className="flex items-center gap-x-3 mt-6 hover:bg-neutral-800  p-2 rounded-md ">
+              <h1 className="font-RubikMedium text-neutral-200">
+                Alpha Socials
+              </h1>
+              <div className="flex items-center gap-x-3  hover:bg-neutral-800  p-2 rounded-md ">
                 <div className="bg-neutral-700/50 h-8 w-8 rounded-full flex items-center justify-center">
-                  <PiGithubLogoLight className="text-lg" />
+                  <FaTwitter className="text-lg" />
                 </div>
-                <h3 className="text-xs ">
-                  9 Essential Javascript <br /> Functions
-                </h3>
+                <h3 className="text-xs ">Twitter.com</h3>
               </div>
-              <div className="flex items-center gap-x-3 mt-6 hover:bg-neutral-800  p-2 rounded-md">
+              <div className="flex items-center gap-x-3  hover:bg-neutral-800  p-2 rounded-md">
                 <div className="bg-neutral-700/50 h-8 w-8 rounded-full flex items-center justify-center">
-                  <SiFramer className="text-lg" />
+                  <SiTelegram className="text-lg" />
                 </div>
-                <h3 className="text-xs ">
-                  How to easily creat React <br /> animations: Framer Motion
-                </h3>
+                <h3 className="text-xs ">Telegram</h3>
               </div>
-              <div className="flex items-center gap-x-3 mt-6 hover:bg-neutral-800  p-2 rounded-md">
+              <div className="flex items-center gap-x-3  hover:bg-neutral-800  p-2 rounded-md">
                 <div className="bg-neutral-700/50 h-8 w-8 rounded-full flex items-center justify-center">
-                  <SiCss3 className="text-lg" />
+                  <SiReddit className="text-lg" />
                 </div>
-                <h3 className="text-xs ">TailwindCSS tips</h3>
+                <h3 className="text-xs ">Reddit.com</h3>
+              </div>
+              <div className="flex items-center gap-x-3  hover:bg-neutral-800  p-2 rounded-md">
+                <div className="bg-neutral-700/50 h-8 w-8 rounded-full flex items-center justify-center">
+                  <SiDiscord className="text-lg" />
+                </div>
+                <h3 className="text-xs ">Discord.com</h3>
               </div>
 
               <div className="border border-neutral-700 my-5" />
@@ -79,12 +89,12 @@ function page() {
             width={1000}
             height={1000}
             className="h-32 w-56 object-cover rounded-lg"
-            src="/game.jpg"
+            src="/banner2.webp"
             alt=""
           />
-          <p className="my-3 font-RubikMedium text-sm">3D Games in Reactjs</p>
+          <p className="my-3 font-RubikMedium text-sm">Promote your memes</p>
           <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium ">
-            Get Now @20% OFF
+            Contact us
           </button>
         </div>
       </div>

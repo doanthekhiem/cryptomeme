@@ -131,7 +131,7 @@ function Leftpage() {
 
           <div className="w-full mt-5 text-neutral-300">
             <h2 className="font-RubikBold my-4">
-              Top Meme Coins by Market Cap
+              Memes for the community! 🚀🚀🚀
             </h2>
             <p className="text-[12px]  font-RubikRegular my-3">
               Meme coins derive their relevance from memes, <br /> thriving on
@@ -142,12 +142,12 @@ function Leftpage() {
               <div className="flex items-center gap-x-1">
                 <PiShapesThin />
                 <span className="text-xs font-RubikRegular">
-                  7 Years as a Developer
+                  1.24% total market cap
                 </span>
               </div>
               <div className="flex items-center gap-x-1">
                 <PiMagicWandThin />
-                <span className="text-xs font-RubikRegular">24 Projects</span>
+                <span className="text-xs font-RubikRegular">340 tokens</span>
               </div>
             </div>
 

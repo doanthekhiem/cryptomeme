@@ -8,7 +8,6 @@ import dayjs from "dayjs";
 
 function Homepage(data) {
   const dataResult = data?.data;
-  console.log(dataResult);
   return (
     <motion.div
       initial={{ y: 100, opacity: 0 }}

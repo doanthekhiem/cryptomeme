@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import { PiCodeThin } from "react-icons/pi";
+import { PiArrowLeftThin, PiCodeThin } from "react-icons/pi";
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
 import dayjs from "dayjs";
@@ -24,22 +24,7 @@ function Homepage(data) {
       className="w-full lg:w-fit "
     >
       <div className="  bg-[#1C1C1C] lg:bg-transparent rounded-2xl ">
-        <div>
-          <div className="flex gap-x-6 p-4">
-            <PiCodeThin className="text-6xl text-neutral-50" />
-            <div>
-              <h1 className="text-2xl font-RubikMedium text-neutral-300">
-                Semicolon,{" "}
-                <span className="text-sm text-neutral-400">A Dev Blog</span>
-              </h1>
-              <p className="max-w-sm text-neutral-400 text-sm">
-                I design and code beautifully simple things, and <br />{" "}
-                occasionally i write about them
-              </p>
-            </div>
-          </div>
-
-          <div className="border border-neutral-700 my-5" />
+        <div className="">
           {dataResult?.articles
             ?.filter(
               (el, index, self) =>

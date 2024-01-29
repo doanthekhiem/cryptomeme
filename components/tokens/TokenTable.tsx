@@ -1,12 +1,12 @@
 "use client"
-import React from "react";
-
-
-import { motion, useAnimation } from "framer-motion";
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from 'next/navigation'
 import { formatNumber } from "../providers/constant";
 const TokenTable = (data: any) => {
     const dataResult: any[] = data?.data?.filter(el => el?.market_cap_rank)
+    const router = useRouter()
     return <div>
         <motion.div
             initial={{ y: 10, opacity: 0 }}
@@ -26,14 +26,16 @@ const TokenTable = (data: any) => {
                         <tr>
                             <th align="center">#</th>
                             <th align="left">Coin</th>
-                            <th align="left"></th>
+                            <th align="left">Symbol</th>
                             <th align="right">Price</th>
                             <th align="center">24h</th>
                             <th align="right">Volume</th>
                             <th align="right">Mkt Cap</th>
                         </tr>
                         {dataResult?.map(item => (
-                            <tr key={item?.id} className="hover:bg-neutral-800 cursor-pointer">
+                            <tr onClick={() => {
+                                router.push(`/tokens/${item?.id}`)
+                            }} key={item?.id} className="hover:bg-neutral-800 cursor-pointer">
                                 <td align="center">{item?.market_cap_rank}</td>
                                 <td>
                                     <div className="flex gap-1 items-center">
@@ -43,7 +45,8 @@ const TokenTable = (data: any) => {
                                             className="h-5 w-5 object-cover rounded-lg"
                                             src={item?.image || ""}
                                             alt=""
-                                        /> <span className="line-clamp-1 max-w-20">{item?.name}</span> </div>
+                                        /> <span className="line-clamp-1 max-w-20">{item?.name}</span>
+                                    </div>
                                 </td>
                                 <td><span className="line-clamp-1 max-w-20">{item?.symbol}</span></td>
                                 <td align="right">

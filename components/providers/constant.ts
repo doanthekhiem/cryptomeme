@@ -1,25 +1,32 @@
 type FormatType = "Billion" | "Million" | "Percent" | "token_price";
 
 export function formatNumber(value: number, format?: FormatType): string {
-    let formattedNumber: string;
+    // Định nghĩa các hằng số cho các giá trị limit.
+    const billion = 1e9; // 1,000,000,000
+    const million = 1e6; // 1,000,000
 
-    switch (format) {
-        case "Billion":
-            formattedNumber = (value / 1000000000).toFixed(1) + " Billion";
-            break;
-        case "Million":
-            formattedNumber = (value / 1000000).toFixed(1) + " Million";
-            break;
-        case "Percent":
-            formattedNumber = value.toFixed(1) + "%";
-            break;
-        case "token_price":
-            formattedNumber = value > 0.01 ? value.toFixed(2) : value.toFixed(6);
-            break;
-        default:
-            formattedNumber = value.toLocaleString("en-US");
-            break;
+    if (!format) {
+        // Nếu giá trị lớn hơn hoặc bằng 1 tỷ, format theo dạng Billion.
+        if (value >= billion) {
+            format = "Billion";
+        } else if (value >= million) {
+            // Nếu giá trị lớn hơn hoặc bằng 1 triệu, format theo dạng Million.
+            format = "Million";
+        }
+        // Không cần else ở đây vì nếu không đáp ứng 2 điều kiện trên, format sẽ là undefined và số sẽ được format theo dạng mặc định.
     }
 
-    return formattedNumber;
+    // Tiến hành format số theo định dạng đã xác định.
+    switch (format) {
+        case "Billion":
+            return (value / billion).toLocaleString("en-US", { maximumFractionDigits: 1 }) + " B";
+        case "Million":
+            return (value / million).toLocaleString("en-US", { maximumFractionDigits: 1 }) + " M";
+        case "Percent":
+            return value.toFixed(2) + "%";
+        case "token_price":
+            return value > 0.01 ? value.toFixed(2) : value.toFixed(7);
+        default:
+            return value.toLocaleString("en-US");
+    }
 }

@@ -59,21 +59,23 @@ const RenderLinks: React.FC<{ data: SocialLinks }> = ({ data }) => {
         let links: JSX.Element[] = [];
         Object.entries(data)?.forEach(([key, value]) => {
             if (Array.isArray(value)) {
+                // Xử lý khi value là một mảng
                 value.filter(Boolean).forEach((url) => {
                     const linkElement = renderLink(url, key);
-                    if (linkElement) links.push(linkElement);
+                    if (linkElement !== null) links.push(linkElement);
                 });
             } else if (typeof value === 'string' && value) {
-                if (key == "twitter_screen_name") {
-                    links.push(renderLink(`https://twitter.com/${value}`, 'Twitter'));
-                } else {
-                    links.push(renderLink(value, key));
+                // Xử lý khi value là một string
+                const linkElement = renderLink(value, key);
+                if (linkElement !== null) {
+                    links.push(linkElement);
                 }
             } else if (key === 'repos_url') {
+                // Xử lý đối với repos_url
                 (Object.entries(value as { github?: string[]; bitbucket?: string[] })).forEach(([repoKey, repoUrls]) => {
                     (repoUrls as string[]).forEach((repoUrl: string) => {
                         const linkElement = renderLink(repoUrl, repoKey);
-                        if (linkElement) links.push(linkElement);
+                        if (linkElement !== null) links.push(linkElement);
                     });
                 });
             }

@@ -1,8 +1,7 @@
 "use client"
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
-    PiGoogleLogoThin,
     PiMagicWandThin,
     PiShapesThin,
     PiTrendDownBold,
@@ -11,9 +10,16 @@ import {
 
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { formatNumber } from "../constant";
-const LeftSideBar = (data: any) => {
-    const dataResult: any = data?.data.find(el => el.id == "meme-token")
+const LeftSideBar = ({ categoriesData, memeTokenData }: any) => {
+    const dataResult: any = categoriesData?.find(el => el.id == "meme-token")
+    const sortedData = memeTokenData?.sort((a, b) =>
+        (b.price_change_percentage_24h || 0) - (a.price_change_percentage_24h || 0)
+    );
+    const dataGainers = sortedData?.slice(0, 3);
+    console.log(dataGainers);
+
     const [email, setEmail] = useState("");
 
     const controls = useAnimation();
@@ -79,15 +85,13 @@ const LeftSideBar = (data: any) => {
                         </div>
                         <div className="flex w-full justify-center">
                             <div className="flex gap-x-1  text-xs my-4">
-                                <p className="bg-[#282828] text-neutral-300 rounded-md whitespace-nowrap px-2 h-5 flex items-center justify-center text-[12px] font-RubikBold">
-                                    🔥 Dogwifhat
-                                </p>
-                                <p className="bg-[#282828] text-neutral-300 rounded-md whitespace-nowrap px-2 h-5 flex items-center justify-center text-[12px] font-RubikBold">
-                                    🔥 Bonk
-                                </p>
-                                <p className=" bg-[#282828] text-neutral-300 rounded-md whitespace-nowrap px-2 h-5 flex items-center justify-center text-[12px] font-RubikBold shrink-0 ">
-                                    🔥 Myro
-                                </p>
+                                {dataGainers?.map(el => (
+                                    <Link key={el.id} href={`/tokens/${el?.id}`}>
+                                        <p className="bg-[#282828] text-neutral-300 rounded-md whitespace-nowrap px-2 h-5 flex items-center justify-center text-[12px] font-RubikBold">
+                                            🔥 {el?.name}
+                                        </p>
+                                    </Link>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -136,37 +140,27 @@ const LeftSideBar = (data: any) => {
                     <div className="border border-[#282828] text-neutral-300 my-6" />
 
                     <div className="my-4 ">
-                        <h1 className="font-RubikRegular"> Largest Gainers</h1>
-                        <div className="mt-7 flex justify-between">
-                            <div className="flex gap-x-3">
-                                <PiGoogleLogoThin className="text-xl" />
-                                <div className="-mt-1">
-                                    <h3 className="text-sm font-RubikMedium">OmniCat</h3>
-                                    <p className="text-[12px]">$0.0007319</p>
+                        <h1 className="font-RubikRegular mb-5"> Largest Gainers</h1>
+                        {dataGainers?.map(el => (
+                            <Link key={el.id} href={`/tokens/${el?.id}`}>
+                                <div className="py-2 px-2 rounded-md hover:bg-neutral-800 flex items-center justify-between">
+                                    <div className="flex gap-x-3">
+                                        <Image
+                                            width={1000}
+                                            height={1000}
+                                            className="h-5 w-5 object-cover rounded-lg"
+                                            src={el?.image || ""}
+                                            alt=""
+                                        />
+                                        <div className="-mt-1">
+                                            <h3 className="text-sm font-RubikMedium">{el?.name} </h3>
+                                            <p className="text-[12px]">${formatNumber(el?.current_price, "token_price")}</p>
+                                        </div>
+                                    </div>
+                                    <small className="text-[12px] text-green-500">{(el?.price_change_percentage_24h)?.toFixed(2)}%</small>
                                 </div>
-                            </div>
-                            <small className="text-[12px] text-green-500">44.9%</small>
-                        </div>
-                        <div className="mt-7 flex justify-between">
-                            <div className="flex gap-x-3">
-                                <PiGoogleLogoThin className="text-xl" />
-                                <div className="-mt-1">
-                                    <h3 className="text-sm font-RubikMedium">OmniCat</h3>
-                                    <p className="text-[12px]">$0.0007319</p>
-                                </div>
-                            </div>
-                            <small className="text-[12px] text-green-500">44.9%</small>
-                        </div>
-                        <div className="mt-7 flex justify-between">
-                            <div className="flex gap-x-3">
-                                <PiGoogleLogoThin className="text-xl" />
-                                <div className="-mt-1">
-                                    <h3 className="text-sm font-RubikMedium">OmniCat</h3>
-                                    <p className="text-[12px]">$0.0007319</p>
-                                </div>
-                            </div>
-                            <small className="text-[12px] text-green-500">44.9%</small>
-                        </div>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>

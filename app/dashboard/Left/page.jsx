@@ -1,32 +1,56 @@
 import LeftSideBar from "@/components/providers/side-bar/LeftSideBar";
 
-async function getData() {
+async function getCategoriesData() {
   const res = await fetch(`https://api.coingecko.com/api/v3/coins/categories`, {
     next: { revalidate: 86400 },
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error("Failed to fetch categories data");
+  }
+
+  return res.json();
+}
+
+async function getMemeTokenData() {
+  const params = new URLSearchParams({
+    vs_currency: `usd`,
+    category: "meme-token",
+    order: "market_cap_desc",
+    per_page: "500",
+    page: "1",
+    sparkline: true,
+    locale: "en",
+  });
+  const res = await fetch(
+    `https://api.coingecko.com/api/v3/coins/markets?${params.toString()}`,
+    { next: { revalidate: 3600 } }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch meme token data");
   }
 
   return res.json();
 }
 
 export default async function Leftpage() {
-  let data;
+  let categoriesData, memeTokenData;
   try {
-    data = await getData();
+    categoriesData = await getCategoriesData();
+    memeTokenData = await getMemeTokenData();
   } catch (error) {
-    // Handle the error appropriately, e.g., log it or display an error message
     console.error("Error fetching data:", error);
-    // Optionally, render an error component or message here
     return <div>Error loading data</div>;
   }
 
   // Render your page with the fetched data
   return (
     <>
-      <LeftSideBar data={data} />
+      <LeftSideBar
+        categoriesData={categoriesData}
+        memeTokenData={memeTokenData}
+      />
     </>
   );
 }

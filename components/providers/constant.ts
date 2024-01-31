@@ -23,7 +23,7 @@ export function formatNumber(value: number, format?: FormatType): string {
         case "Million":
             return (value / million).toLocaleString("en-US", { maximumFractionDigits: 1 }) + " M";
         case "Percent":
-            return value.toFixed(2) + "%";
+            return value?.toFixed(2) + "%";
         case "token_price":
             return value > 0.01 ? value.toFixed(2) : value.toFixed(7);
         default:

@@ -9,8 +9,6 @@ import { formatNumber } from "../providers/constant";
 import RenderLinks from "./RenderLinks";
 const TokenDetail = (data: any) => {
     const dataResult: any = data?.data;
-    console.log(dataResult);
-
     const router = useRouter()
     return <div>
         <motion.div

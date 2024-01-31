@@ -7,9 +7,12 @@ import { PiTrendDownBold, PiTrendUpBold } from "react-icons/pi";
 import { formatNumber } from "../providers/constant";
 
 import RenderLinks from "./RenderLinks";
+import ChartComponent from "./ChartComponent";
 const TokenDetail = (data: any) => {
     const dataResult: any = data?.data;
     const router = useRouter()
+    console.log(dataResult?.market_data);
+
     return <div>
         <motion.div
             initial={{ y: 10, opacity: 0 }}
@@ -36,6 +39,7 @@ const TokenDetail = (data: any) => {
                 <div className="border border-[#282828] text-neutral-300 my-3" />
                 <div className="w-full mx-auto">
                     <div className="font-bold text-lg mb-3">{dataResult?.name} Market Stats</div>
+                    <ChartComponent updateTime={dataResult?.market_data?.last_updated} data={dataResult?.market_data?.sparkline_7d?.price} />
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-[1px] bg-neutral-800 " style={{
                         gridGap: "1px"
                     }}>

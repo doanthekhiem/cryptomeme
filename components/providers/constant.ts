@@ -1,3 +1,5 @@
+import { IChartColor } from "./tableInterface";
+
 type FormatType = "Billion" | "Million" | "Percent" | "token_price";
 
 export function formatNumber(value: number, format?: FormatType): string {
@@ -30,3 +32,15 @@ export function formatNumber(value: number, format?: FormatType): string {
             return value.toLocaleString("en-US");
     }
 }
+export const CHART_COLOR: IChartColor[] = [
+    {
+        id: "colorUp",
+        color: "#00c087",
+        bg: "#82ca9d",
+    },
+    {
+        id: "colorDown",
+        color: "#f63d3d",
+        bg: "#f63d3d",
+    },
+];

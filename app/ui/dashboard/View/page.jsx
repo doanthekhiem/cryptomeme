@@ -1,19 +1,11 @@
 "use client";
-import React from "react";
-import { PiGithubLogoLight } from "react-icons/pi";
-import {
-  SiCss3,
-  SiFramer,
-  SiTelegram,
-  SiBitcoincash,
-  SiReddit,
-  SiDiscord,
-} from "react-icons/si";
 import { FaTwitter } from "react-icons/fa";
+import { SiDiscord, SiReddit, SiTelegram } from "react-icons/si";
 
 import TestimonialTooltip from "@/app/TestimonialTooltip/page";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 function page() {
   return (
@@ -40,9 +32,11 @@ function page() {
             <p className="text-xs my-3 text-neutral-400 font-RubikRegular">
               Explore over 340 meme tokens, the playful pulse of crypto culture.
             </p>
-            <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium text-neutral-50 ">
-              Show more
-            </button>
+            <Link href={"/tokens"}>
+              <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium text-neutral-50 ">
+                Show more
+              </button>
+            </Link>
 
             <div className="border border-neutral-700 my-5" />
 
@@ -96,6 +90,14 @@ function page() {
           <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium ">
             Contact us
           </button>
+        </div>
+        <div className="border border-neutral-700 my-5" />
+        <div className="bg-[#1C1C1C] min-w-min rounded-2xl p-4 border border-neutral-800 text-neutral-50">
+          <p className="text-sm text-neutral-50">Powered by:</p>
+          <div className="flex text-sm gap-2">
+            <Link href={"https://www.coingecko.com/"}>CoinGecko</Link> |{" "}
+            <Link href={"https://newsapi.org/"}>NewsAPI</Link>
+          </div>
         </div>
       </div>
     </motion.div>

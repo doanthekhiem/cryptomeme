@@ -89,3 +89,11 @@
   border-radius: 10px;
   background: #a0a0a0;
 }
+.table-coins td {
+  padding: 10px 10px;
+  white-space: nowrap;
+}
+
+.table-coins th {
+  padding: 10px 10px;
+}

@@ -18,11 +18,9 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
 };
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ data, updateTime }) => {
-  // Tạo dữ liệu mới cho biểu đồ với chỉ số mảng làm thời gian
   const formattedData = data.map((usdValue, index) => {
-    // Giả sử updateTime là thời điểm bắt đầu của chuỗi dữ liệu
     const initTime = dayjs(updateTime).add(-7, 'day')
-    const time = dayjs(initTime).subtract(index * 5, 'minute').format('HH:mm DD/MM');
+    const time = dayjs(initTime).add(index, 'hour').format('HH:mm DD/MM');
     return {
       day: time,
       usdValue: usdValue.toFixed(8),

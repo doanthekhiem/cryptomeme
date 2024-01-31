@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Memes in the CryptoWorld</title>
+        <title>Meme Magic: Exploring the Whimsical Side of Crypto</title>
         <meta
           name="description"
           content="Meme cryptocurrencies are digital assets inspired by internet jokes, often gaining popularity and value through social media hype."

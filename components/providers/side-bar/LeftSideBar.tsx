@@ -88,7 +88,7 @@ const LeftSideBar = ({ categoriesData, memeTokenData }: any) => {
                                 {dataGainers?.map(el => (
                                     <Link key={el.id} href={`/tokens/${el?.id}`}>
                                         <p className="bg-[#282828] text-neutral-300 rounded-md whitespace-nowrap px-2 h-5 flex items-center justify-center text-[12px] font-RubikBold">
-                                            🔥 {el?.name}
+                                            🔥 <span className="line-clamp-1 max-w-20">{el?.name}</span>
                                         </p>
                                     </Link>
                                 ))}

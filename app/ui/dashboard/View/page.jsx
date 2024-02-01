@@ -87,16 +87,19 @@ function page() {
             alt=""
           />
           <p className="my-3 font-RubikMedium text-sm">Promote your memes</p>
-          <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium ">
-            Contact us
-          </button>
+          <Link href="mailto:doanthekhiem@gmail.com">
+            <button className="bg-[#696969] h-7 p-1 rounded-md text-xs w-full font-RubikMedium ">
+              Contact us
+            </button>
+          </Link>
         </div>
         <div className="border border-neutral-700 my-5" />
         <div className="bg-[#1C1C1C] min-w-min rounded-2xl p-4 border border-neutral-800 text-neutral-50">
           <p className="text-sm text-neutral-50">Powered by:</p>
           <div className="flex text-sm gap-2">
             <Link href={"https://www.coingecko.com/"}>CoinGecko</Link> |{" "}
-            <Link href={"https://newsapi.org/"}>NewsAPI</Link>
+            <Link href={"https://newsapi.org/"}>NewsAPI</Link> |{" "}
+            <Link href={"https://blackreport.tech/"}>BlackReport</Link>
           </div>
         </div>
       </div>

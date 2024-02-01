@@ -2,12 +2,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import React from "react";
 import { PiTrendDownBold, PiTrendUpBold } from "react-icons/pi";
 import { formatNumber } from "../providers/constant";
 
-import RenderLinks from "./RenderLinks";
 import ChartComponent from "./ChartComponent";
+import RenderLinks from "./RenderLinks";
 import TokenExchangeListTable from "./TokenExchangeListTable";
 const TokenDetail = (data: any) => {
     const dataResult: any = data?.data;
@@ -25,22 +24,29 @@ const TokenDetail = (data: any) => {
             className="w-full lg:w-fit text-neutral-300"
         >
             <div className="md:w-fit w-full flex flex-col gap-3 p-3 border border-neutral-800   rounded-2xl h-full bg-[#1C1C1C]  ">
-                <div className="flex gap-2 items-end w-full">
-                    <Image
-                        width={1000}
-                        height={1000}
-                        className="h-10 w-10 object-cover rounded-lg"
-                        src={dataResult?.image?.small || ""}
-                        alt=""
-                    />
-                    <h1 className="font-RubikMedium text-2xl ">{dataResult?.name}</h1>
-                    <h1 className="font-RubikRegular ">{dataResult?.symbol}</h1>
-                    <div className={`font-RubikMedium ${dataResult?.market_data?.price_change_24h < 0 ? "text-red-500" : "text-green-500"}`}>${formatNumber(dataResult?.market_data?.current_price?.usd, 'token_price')}</div>
+                <div className="flex justify-between">
+                    <div className="flex gap-2 items-end w-full">
+                        <Image
+                            width={1000}
+                            height={1000}
+                            className="h-10 w-10 object-cover rounded-lg"
+                            src={dataResult?.image?.small || ""}
+                            alt=""
+                        />
+                        <h1 className="font-RubikMedium text-2xl ">{dataResult?.name}</h1>
+                        <p className="bg-[#282828] text-neutral-300 rounded-md mb-1 whitespace-nowrap px-2 h-6 flex items-center justify-center text-[14px] font-RubikBold">
+                            <span className="line-clamp-1 max-w-20">{dataResult?.symbol}</span>
+                        </p>
+                    </div>
+                    {dataResult?.asset_platform_id ? (
+                        <div className="flex gap-2 items-center"><span className=" font-RubikMedium underline">{dataResult?.asset_platform_id}</span></div>
+                    ) : (<></>)}
                 </div>
-                <div className="border border-[#282828] text-neutral-300 my-3" />
                 <div className="w-full mx-auto">
-                    <div className="font-bold text-lg mb-3">{dataResult?.name} Market Stats</div>
+                    <div className={`font-RubikMedium text-lg ${dataResult?.market_data?.price_change_24h < 0 ? "text-red-500" : "text-green-500"}`}>${formatNumber(dataResult?.market_data?.current_price?.usd, 'token_price')}</div>
                     <ChartComponent updateTime={dataResult?.market_data?.last_updated} data={dataResult?.market_data?.sparkline_7d?.price} />
+                    <div className="border border-[#282828] text-neutral-300 my-3" />
+                    <div className="font-bold text-lg mb-3">{dataResult?.name} Market Stats</div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-[1px] bg-neutral-800 " style={{
                         gridGap: "1px"
                     }}>

@@ -1,6 +1,7 @@
 import Left from "@/app/dashboard/Left/page";
 import View from "@/app/ui/dashboard/View/page";
 import Theming from "@/components/providers/Theme";
+import { Analytics } from "@vercel/analytics/react";
 import Link from "next/link";
 import { PiArrowLeftThin } from "react-icons/pi";
 import "./globals.css";
@@ -62,6 +63,7 @@ export default function RootLayout({ children }) {
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className="">
+        <Analytics />
         <Theming>
           <div className="max-w-[78rem] mx-auto ">
             <div className=" gap-4 flex md:mt-5    flex-col md:flex-row  ">

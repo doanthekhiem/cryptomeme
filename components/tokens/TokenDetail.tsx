@@ -8,6 +8,7 @@ import { formatNumber } from "../providers/constant";
 
 import RenderLinks from "./RenderLinks";
 import ChartComponent from "./ChartComponent";
+import TokenExchangeListTable from "./TokenExchangeListTable";
 const TokenDetail = (data: any) => {
     const dataResult: any = data?.data;
     const router = useRouter()
@@ -94,6 +95,11 @@ const TokenDetail = (data: any) => {
                 <div className="w-full mx-auto">
                     <div className="font-bold text-lg mb-3">Link</div>
                     <RenderLinks data={dataResult?.links} />
+                </div>
+                <div className="border border-[#282828] text-neutral-300 my-3" />
+                <div className="w-full mx-auto">
+                    <div className="font-bold text-lg mb-3">Top {dataResult?.name} Markets</div>
+                    <TokenExchangeListTable data={dataResult?.tickers} />
                 </div>
             </div>
         </motion.div >

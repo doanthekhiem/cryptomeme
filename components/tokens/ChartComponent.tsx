@@ -23,7 +23,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data, updateTime }) => 
     const time = dayjs(initTime).add(index, 'hour').format('HH:mm DD/MM');
     return {
       day: time,
-      usdValue: usdValue.toFixed(8),
+      usdValue: usdValue.toFixed(10),
     };
   });
 

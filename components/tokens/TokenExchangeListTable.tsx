@@ -48,7 +48,7 @@ const TokenExchangeListTable = (data: any) => {
                                 </td>
                                 <td align="right" className="hidden md:table-cell">${formatNumber(item?.converted_volume?.usd)}</td>
                                 <td align="right" className="hidden md:table-cell">{dayjs(item?.last_fetch_at).format("HH:mm DD/MM")}</td>
-                                <td align="right" ><div className={`w-2 h-2 rounded-full bg-${item?.trust_score}-500`}></div></td>
+                                <td align="right" ><div className={`w-2 h-2 rounded-full bg-${item?.trust_score || "red"}-500`}></div></td>
                             </tr>
                         ))}
 

@@ -9,6 +9,8 @@ const TokenExchangeListTable = (data: any) => {
     const dataResult = data?.data?.filter(item => {
         return seenNames.has(item?.market?.name) ? false : seenNames.add(item?.market?.name);
     }).slice(0, 20);
+    console.log(dataResult);
+
     const router = useRouter()
     return <div>
         <motion.div
@@ -37,7 +39,7 @@ const TokenExchangeListTable = (data: any) => {
                                 <td align="left" >
                                     <Link href={item?.trade_url || "#"} target="_blank">
                                         <p className="bg-[#282828] text-neutral-300 rounded-md whitespace-nowrap px-2 h-5 flex items-center justify-center text-[12px] font-RubikBold">
-                                            {item?.base}/{item?.target}
+                                            {item?.base?.length > 10 ? "Trade" : <>{item?.base}/{item?.target}</>}
                                         </p>
                                     </Link>
                                 </td>

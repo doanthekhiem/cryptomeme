@@ -24,7 +24,7 @@ export default async function TokensPage(ref) {
     // Handle the error appropriately, e.g., log it or display an error message
     console.error("Error fetching data:", error);
     // Optionally, render an error component or message here
-    return <div>Error loading data</div>;
+    return <div>Error loading data </div>;
   }
 
   // Render your page with the fetched data

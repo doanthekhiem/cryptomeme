@@ -61,6 +61,12 @@ export default function RootLayout({ children }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+        <script
+          src="https://app.10xlaunch.ai/widget"
+          data-app-id="9a1f1e5f-da18-4bd2-8691-45c850955dc0"
+          async
+          defer
+        ></script>
       </head>
       <body className="">
         <Analytics />

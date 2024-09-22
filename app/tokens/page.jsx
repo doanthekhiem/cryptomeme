@@ -1,5 +1,4 @@
-import LeftSideBar from "@/components/providers/side-bar/LeftSideBar";
-import TokenTable from "@/components/tokens/TokenTable";
+import WordCloudChart from "../../components/tokens/WordCloudChart";
 
 async function getData() {
   const params = new URLSearchParams({
@@ -37,7 +36,8 @@ export default async function TokensPage() {
   // Render your page with the fetched data
   return (
     <>
-      <TokenTable data={data} />
+      <WordCloudChart data={data} />
+      {/* <TokenTable data={data} /> */}
     </>
   );
 }

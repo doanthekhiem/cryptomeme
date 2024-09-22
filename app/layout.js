@@ -71,7 +71,8 @@ export default function RootLayout({ children }) {
       <body className="">
         <Analytics />
         <Theming>
-          <div className="max-w-[78rem] mx-auto ">
+          <div className="mt-9">{children}</div>
+          {/* <div className="max-w-[78rem] mx-auto ">
             <div className=" gap-4 flex md:mt-5    flex-col md:flex-row  ">
               <Left />
               <div>
@@ -105,7 +106,7 @@ export default function RootLayout({ children }) {
               </div>
               <View />
             </div>
-          </div>
+          </div> */}
         </Theming>
       </body>
     </html>

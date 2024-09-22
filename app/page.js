@@ -1,14 +1,17 @@
-import Homepage from "./HomePage/page";
+import WordCloudChart from "../components/tokens/WordCloudChart";
 
 async function getData() {
   const params = new URLSearchParams({
-    q: `("MEME coin" OR "meme coin" OR "meme token")`,
-    sortBy: "publishedAt",
-    apiKey: "769855619d27437f93cd0fda2e5fb9ad",
-    language: "en",
+    vs_currency: `usd`,
+    category: "meme-token",
+    order: "market_cap_desc",
+    per_page: "500",
+    page: "1",
+    sparkline: true,
+    locale: "en",
   });
   const res = await fetch(
-    `https://newsapi.org/v2/everything?${params.toString()}`,
+    `https://api.coingecko.com/api/v3/coins/markets?${params.toString()}`,
     { next: { revalidate: 3600 } }
   );
 
@@ -19,7 +22,7 @@ async function getData() {
   return res.json();
 }
 
-export default async function Page() {
+export default async function TokensPage() {
   let data;
   try {
     data = await getData();
@@ -32,8 +35,9 @@ export default async function Page() {
 
   // Render your page with the fetched data
   return (
-    <main>
-      <Homepage data={data} />
-    </main>
+    <>
+      <WordCloudChart data={data} />
+      {/* <TokenTable data={data} /> */}
+    </>
   );
 }

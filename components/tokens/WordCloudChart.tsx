@@ -25,10 +25,10 @@ const WordCloudChart = ({ data }) => {
     if (dimensions.width > 0 && dimensions.height > 0) {
       const maxSize = 50; // Kích thước tối đa cho từ
       const minSize = 10; // Kích thước tối thiểu cho từ
-      const sizeScale = d3.scaleLinear()
+      const sizeScale = d3
+        .scaleLinear()
         .domain([0, data.length - 1])
         .range([maxSize, minSize]);
-
       const layout = cloud()
         .size([dimensions.width, dimensions.height])
         .words(
@@ -36,7 +36,8 @@ const WordCloudChart = ({ data }) => {
             text: d.name,
             size: sizeScale(index),
             value: Math.abs(d.price_change_percentage_24h),
-            index: index
+            index: index,
+            coinId: d.id,
           }))
         )
         .padding(5)
@@ -78,7 +79,8 @@ const WordCloudChart = ({ data }) => {
       .attr("transform", (d) => `translate(${d.x},${d.y})rotate(${d.rotate})`)
       .text((d) => d.text)
       .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut);
+      .on("mouseout", handleMouseOut)
+      .on("click", handleClick); // Thêm sự kiện click
   };
 
   const handleMouseOver = (event, d) => {
@@ -94,6 +96,12 @@ const WordCloudChart = ({ data }) => {
       .transition()
       .duration(200)
       .style("font-size", `${d.size}px`);
+  };
+
+  const handleClick = (event, d) => {
+    const coinId = d.coinId;
+    const url = `https://www.coingecko.com/en/coins/${coinId}`;
+    window.open(url, "_blank");
   };
 
   return (

@@ -1,19 +1,43 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import cloud from "d3-cloud";
 import * as d3 from "d3";
-import styles from "./WordCloudChart.module.css";
 
-const WordCloudChart = ({ data }) => {
+interface TokenData {
+  id: string;
+  name: string;
+  price_change_percentage_24h: number;
+}
+
+interface WordCloudChartProps {
+  data: TokenData[];
+}
+
+interface WordData {
+  text: string;
+  size: number;
+  value: number;
+  index: number;
+  coinId: string;
+  x?: number;
+  y?: number;
+  rotate?: number;
+}
+
+const WordCloudChart = ({ data }: WordCloudChartProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [hoveredWord, setHoveredWord] = useState<string | null>(null);
 
   useEffect(() => {
     const updateDimensions = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      if (containerRef.current) {
+        setDimensions({
+          width: containerRef.current.clientWidth,
+          height: containerRef.current.clientHeight,
+        });
+      }
     };
 
     updateDimensions();
@@ -21,37 +45,9 @@ const WordCloudChart = ({ data }) => {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  useEffect(() => {
-    if (dimensions.width > 0 && dimensions.height > 0) {
-      const maxSize = 50; // Kích thước tối đa cho từ
-      const minSize = 10; // Kích thước tối thiểu cho từ
-      const sizeScale = d3
-        .scaleLinear()
-        .domain([0, data.length - 1])
-        .range([maxSize, minSize]);
-      const layout = cloud()
-        .size([dimensions.width, dimensions.height])
-        .words(
-          data.map((d, index) => ({
-            text: d.name,
-            size: sizeScale(index),
-            value: Math.abs(d.price_change_percentage_24h),
-            index: index,
-            coinId: d.id,
-          }))
-        )
-        .padding(5)
-        .rotate(() => ~~(Math.random() * 2) * 90)
-        .font("Arial")
-        .fontSize((d) => d.size)
-        .spiral("archimedean")
-        .on("end", draw);
+  const draw = useCallback((words: WordData[]) => {
+    if (!svgRef.current) return;
 
-      layout.start();
-    }
-  }, [data, dimensions]);
-
-  const draw = (words) => {
     d3.select(svgRef.current).selectAll("*").remove();
 
     const svg = d3
@@ -64,7 +60,21 @@ const WordCloudChart = ({ data }) => {
         `translate(${dimensions.width / 2},${dimensions.height / 2})`
       );
 
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    // Modern gradient colors
+    const colors = [
+      "#06b6d4", // cyan-500
+      "#8b5cf6", // violet-500
+      "#ec4899", // pink-500
+      "#10b981", // emerald-500
+      "#f59e0b", // amber-500
+      "#6366f1", // indigo-500
+      "#14b8a6", // teal-500
+      "#f43f5e", // rose-500
+      "#84cc16", // lime-500
+      "#a855f7", // purple-500
+    ];
+
+    const colorScale = d3.scaleOrdinal(colors);
 
     svg
       .selectAll("text")
@@ -72,41 +82,88 @@ const WordCloudChart = ({ data }) => {
       .enter()
       .append("text")
       .style("font-size", (d) => `${d.size}px`)
-      .style("font-family", "Arial, sans-serif")
+      .style("font-family", "RubikBold, Arial, sans-serif")
       .style("font-weight", "bold")
-      .style("fill", (d, i) => color(i.toString()))
+      .style("fill", (d, i) => colorScale(i.toString()))
+      .style("opacity", 0.85)
+      .style("cursor", "pointer")
+      .style("transition", "all 0.2s ease")
       .attr("text-anchor", "middle")
       .attr("transform", (d) => `translate(${d.x},${d.y})rotate(${d.rotate})`)
       .text((d) => d.text)
-      .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut)
-      .on("click", handleClick); // Thêm sự kiện click
-  };
+      .on("mouseover", function (event, d) {
+        d3.select(this)
+          .style("opacity", 1)
+          .style("font-size", `${d.size * 1.15}px`)
+          .style("filter", "drop-shadow(0 0 8px currentColor)");
+        setHoveredWord(d.coinId);
+      })
+      .on("mouseout", function (event, d) {
+        d3.select(this)
+          .style("opacity", 0.85)
+          .style("font-size", `${d.size}px`)
+          .style("filter", "none");
+        setHoveredWord(null);
+      })
+      .on("click", (event, d) => {
+        window.location.href = `/tokens/${d.coinId}`;
+      });
+  }, [dimensions]);
 
-  const handleMouseOver = (event, d) => {
-    d3.select(event.currentTarget)
-      .transition()
-      .duration(200)
-      .style("font-size", `${d.size * 1.2}px`)
-      .style("cursor", "pointer");
-  };
+  useEffect(() => {
+    if (dimensions.width > 0 && dimensions.height > 0 && data.length > 0) {
+      const maxSize = Math.min(dimensions.width, dimensions.height) * 0.08;
+      const minSize = Math.max(12, maxSize * 0.25);
+      
+      const sizeScale = d3
+        .scaleLinear()
+        .domain([0, Math.min(data.length - 1, 100)])
+        .range([maxSize, minSize]);
 
-  const handleMouseOut = (event, d) => {
-    d3.select(event.currentTarget)
-      .transition()
-      .duration(200)
-      .style("font-size", `${d.size}px`);
-  };
+      const layout = cloud<WordData>()
+        .size([dimensions.width, dimensions.height])
+        .words(
+          data.slice(0, 100).map((d, index) => ({
+            text: d.name,
+            size: sizeScale(index),
+            value: Math.abs(d.price_change_percentage_24h),
+            index: index,
+            coinId: d.id,
+          }))
+        )
+        .padding(8)
+        .rotate(() => (Math.random() > 0.7 ? 90 : 0))
+        .font("RubikBold, Arial")
+        .fontSize((d) => d.size || 12)
+        .spiral("archimedean")
+        .on("end", draw);
 
-  const handleClick = (event, d) => {
-    const coinId = d.coinId;
-    const url = `https://www.coingecko.com/en/coins/${coinId}`;
-    window.open(url, "_blank");
-  };
+      layout.start();
+    }
+  }, [data, dimensions, draw]);
+
+  // Find hovered token data
+  const hoveredToken = hoveredWord ? data.find((t) => t.id === hoveredWord) : null;
 
   return (
-    <div className={styles.wordCloudContainer}>
-      <svg ref={svgRef} className={styles.wordCloudSvg}></svg>
+    <div ref={containerRef} className="relative w-full h-full">
+      <svg ref={svgRef} className="w-full h-full" />
+      
+      {/* Tooltip */}
+      {hoveredToken && (
+        <div className="absolute bottom-4 left-4 bg-neutral-900/95 backdrop-blur-sm border border-neutral-700 rounded-xl px-4 py-3 shadow-xl">
+          <p className="text-white font-RubikMedium text-sm">{hoveredToken.name}</p>
+          <p className={`text-sm ${hoveredToken.price_change_percentage_24h >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {hoveredToken.price_change_percentage_24h >= 0 ? '+' : ''}
+            {hoveredToken.price_change_percentage_24h.toFixed(2)}% (24h)
+          </p>
+        </div>
+      )}
+
+      {/* Instructions */}
+      <div className="absolute top-4 right-4 text-neutral-500 text-xs bg-neutral-900/50 backdrop-blur-sm px-3 py-2 rounded-lg">
+        Click a token to view details
+      </div>
     </div>
   );
 };
